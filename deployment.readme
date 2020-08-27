@@ -1,0 +1,8 @@
+Deploy Strapi => Generate Strapi API URL [LOGGER_SERVICE_URL]
+
+Download last version of dev function
+
+Deploy function
+
+twilio serverless:deploy
+
