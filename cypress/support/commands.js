@@ -93,7 +93,7 @@ Cypress.Commands.add("stopTestFlow", () =>{
   
 });
 
-Cypress.Commands.add('lastStepIs', (stepDetails)=>{
+Cypress.Commands.add('lastStepIs', (widget_name)=>{
 
     cy.request({
         method: 'GET', 
@@ -122,7 +122,10 @@ Cypress.Commands.add('lastStepIs', (stepDetails)=>{
                     url: `${response.body.steps[0].links.step_context}`,
                     auth: { user: accountSIDFlow, pass: authTokenFlow}
                 }).then((response) => {
-                    cy.log(JSON.stringify(response.body.context));
+                    cy.log(JSON.stringify(response.body.context.widgets));
+                    //cy.log(JSON.stringify(response.body.context.widgets.logger));
+                    //cy.log(JSON.stringify(response.body.context.widgets.logger.parsed.config.data));
+                    cy.expect(response.body.context.widgets).to.have.ownProperty(widget_name)
                     //return response.body.steps[0];
                 });
             });

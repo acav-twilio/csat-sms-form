@@ -1,8 +1,10 @@
 //receiving phone number: +1 205 582 7431
 
-if (process.env.NODE_ENV !== 'production') {
+/*if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
   }
+*/
+require('custom-env').env('dev')
 
 const express = require('express');
 const app = express();

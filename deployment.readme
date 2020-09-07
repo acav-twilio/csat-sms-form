@@ -1,8 +1,8 @@
 Deploy Strapi => Generate Strapi API URL [LOGGER_SERVICE_URL]
 
-Download last version of dev function
+Download last version of dev function - or use the new service editor https://www.twilio.com/console/functions/overview/services
 
-Deploy function
+Deploy function:
 
-twilio serverless:deploy
+twilio serverless:deploy  --service-name=logger --environment=stage
 

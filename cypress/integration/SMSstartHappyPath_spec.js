@@ -17,7 +17,7 @@ describe('Trigger the CSAT SMS form via SMS', () => {
     it('SMS from Customer has the right format', () => {
       //reset the state to start
       cy.stopTestFlow(); // we start the flow from 0
-      cy.wait(1000);
+      cy.wait(5000);
       cy.resetTestMessage();
       ////////
 

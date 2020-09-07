@@ -1,0 +1,487 @@
+{
+    "states": [
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "direct_sms"
+                },
+                {
+                    "event": "incomingCall"
+                },
+                {
+                    "event": "incomingRequest",
+                    "next": "set_job_id"
+                }
+            ],
+            "type": "trigger",
+            "name": "Trigger",
+            "properties": {
+                "offset": {
+                    "y": -1150,
+                    "x": -1350
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "check_response_1"
+                },
+                {
+                    "event": "timeout",
+                    "next": "error_message_back"
+                },
+                {
+                    "event": "deliveryFailure",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "send-and-wait-for-reply",
+            "name": "first_question",
+            "properties": {
+                "body": "Thank you so much for your visit. On a scale of 1-10, how would you rate the service {{flow.variables.job_id}}  provided today?",
+                "from": "{{flow.channel.address}}",
+                "timeout": 10,
+                "offset": {
+                    "y": 0,
+                    "x": 320
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "noMatch",
+                    "next": "unknown_answer_1"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "regex",
+                            "friendly_name": "1-10",
+                            "arguments": [
+                                "{{widgets.first_question.inbound.Body}}"
+                            ],
+                            "value": "^(?:[1-9]|0[1-9]|10)$"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "second_question"
+                }
+            ],
+            "type": "split-based-on",
+            "name": "check_response_1",
+            "properties": {
+                "input": "{{widgets.first_question.inbound.Body}}",
+                "offset": {
+                    "y": 340,
+                    "x": 70
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "check_response_2"
+                },
+                {
+                    "event": "timeout",
+                    "next": "error_message_back"
+                },
+                {
+                    "event": "deliveryFailure",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "send-and-wait-for-reply",
+            "name": "second_question",
+            "properties": {
+                "body": "On a scale of 1-10, how likely are you to recommend our company to a friend?",
+                "from": "{{flow.channel.address}}",
+                "timeout": 3600,
+                "offset": {
+                    "y": 620,
+                    "x": 80
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "noMatch",
+                    "next": "unknown_answer_2"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "regex",
+                            "friendly_name": "1-10",
+                            "arguments": [
+                                "{{widgets.second_question.inbound.Body}}"
+                            ],
+                            "value": "^(?:[1-9]|0[1-9]|10)$"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "third_question"
+                }
+            ],
+            "type": "split-based-on",
+            "name": "check_response_2",
+            "properties": {
+                "input": "{{widgets.second_question.inbound.Body}}",
+                "offset": {
+                    "y": 870,
+                    "x": 80
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "thank_you"
+                },
+                {
+                    "event": "timeout",
+                    "next": "thank_you"
+                },
+                {
+                    "event": "deliveryFailure",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "send-and-wait-for-reply",
+            "name": "third_question",
+            "properties": {
+                "body": "Please send us any additional feedback you would like to share with us.",
+                "from": "{{flow.channel.address}}",
+                "timeout": 3600,
+                "offset": {
+                    "y": 1200,
+                    "x": -400
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "sent",
+                    "next": "send_results_to_server"
+                },
+                {
+                    "event": "failed",
+                    "next": "send_results_to_server"
+                }
+            ],
+            "type": "send-message",
+            "name": "thank_you",
+            "properties": {
+                "body": "Thank you so much for your feedback!",
+                "to": "{{contact.channel.address}}",
+                "from": "{{flow.channel.address}}",
+                "offset": {
+                    "y": 1610,
+                    "x": 100
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "success"
+                },
+                {
+                    "event": "failed",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "make-http-request",
+            "name": "send_results_to_server",
+            "properties": {
+                "body": "{ \"name\": \"{{flow.data.name}}\", \"surname\": \"{{flow.data.surname}}\",\"phone_number\": \"{{contact.channel.address}}\",\"service_score\": \"{{widgets.first_question.inbound.Body}}\",\"recommendation_score\": \"{{widgets.second_question.inbound.Body}}\",\"feedback\": \"{{widgets.third_question.inbound.Body}}\",\"job_id\": \"{{widgets.set_job_id.Variables}}\"}",
+                "content_type": "application/json;charset=utf-8",
+                "url": "https://5bfd6c95-ab7b-43d7-8361-7cd557e8056f.mock.pstmn.io/post",
+                "timeout": 3600,
+                "offset": {
+                    "y": 2230,
+                    "x": 240
+                },
+                "method": "POST"
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "success"
+                },
+                {
+                    "event": "fail"
+                }
+            ],
+            "type": "run-function",
+            "name": "logger",
+            "properties": {
+                "parameters": [
+                    {
+                        "key": "customer_phone",
+                        "value": "{{contact.channel.address}}"
+                    },
+                    {
+                        "key": "first_question",
+                        "value": "{{widgets.first_question.outbound.Status}} {{widgets.first_question.outbound.ErrorCode}}  {{widgets.first_question.outbound.ErrorMessage}}"
+                    },
+                    {
+                        "key": "unknown_answer_1",
+                        "value": "{{widgets.unknown_answer_1.outbound.Status}} {{widgets.unknown_answer_1.outbound.ErrorCode}} {{widgets.unknown_answer_1.outbound.ErrorMessage}}"
+                    },
+                    {
+                        "key": "second_question",
+                        "value": "{{widgets.second_question.outbound.Status}} {{widgets.second_question.outbound.ErrorCode}} {{widgets.second_question.outbound.ErrorMessage}}"
+                    },
+                    {
+                        "key": "unknown_answer_2",
+                        "value": "{{widgets.unknown_answer_2.outbound.Status}} {{widgets.unknown_answer_2.outbound.ErrorCode}} {{widgets.unknown_answer_2.outbound.ErrorMessage}}"
+                    },
+                    {
+                        "key": "third_question",
+                        "value": "{{widgets.third_question.outbound.Status}} {{widgets.third_question.outbound.ErrorCode}} {{widgets.third_question.outbound.ErrorMessage}}"
+                    },
+                    {
+                        "key": "send_results_to_server",
+                        "value": "{{widgets.send_results_to_server.status_code}}"
+                    },
+                    {
+                        "key": "direct_sms",
+                        "value": "{{trigger.message.Body}}"
+                    },
+                    {
+                        "key": "job_id",
+                        "value": "{{flow.variables.job_id}}"
+                    }
+                ],
+                "url": "https://logger-6987-dev.twil.io/logger",
+                "environment_sid": "ZE1f055bffaeec796e9c97529ea01b1c8b",
+                "offset": {
+                    "y": 1580,
+                    "x": 1490
+                },
+                "function_sid": "ZH145d2d24bc28e92f996598c80121f945",
+                "service_sid": "ZSfd41aa9bb563da014c2ec40efd812982"
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "noMatch"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "contains",
+                            "friendly_name": "If value contains Feedback job",
+                            "arguments": [
+                                "{{trigger.message.Body}}"
+                            ],
+                            "value": "Feedback job"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "set_job_id"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "contains",
+                            "friendly_name": "If value contains feedback job",
+                            "arguments": [
+                                "{{trigger.message.Body}}"
+                            ],
+                            "value": "feedback job"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "set_job_id"
+                }
+            ],
+            "type": "split-based-on",
+            "name": "direct_sms",
+            "properties": {
+                "input": "{{trigger.message.Body}}",
+                "offset": {
+                    "y": -580,
+                    "x": -1940
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "next",
+                    "next": "first_question"
+                }
+            ],
+            "type": "set-variables",
+            "name": "set_job_id",
+            "properties": {
+                "variables": [
+                    {
+                        "key": "job_id",
+                        "value": "{%- if flow.data.job_id -%}\n {{ flow.data.job_id }}\n{%- else -%}{{trigger.message.Body | split: \" \" | last}}\n{%- endif -%}"
+                    }
+                ],
+                "offset": {
+                    "y": -170,
+                    "x": -950
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "sent",
+                    "next": "logger"
+                },
+                {
+                    "event": "failed",
+                    "next": "logger"
+                }
+            ],
+            "type": "send-message",
+            "name": "error_message_back",
+            "properties": {
+                "body": "We could not process your feedback. Please call our Customer Service  if you'd like to speak directly with one of our advisors.",
+                "to": "{{contact.channel.address}}",
+                "from": "{{flow.channel.address}}",
+                "offset": {
+                    "y": 1200,
+                    "x": 1490
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "check_unknown_answer_1"
+                },
+                {
+                    "event": "timeout",
+                    "next": "error_message_back"
+                },
+                {
+                    "event": "deliveryFailure",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "send-and-wait-for-reply",
+            "name": "unknown_answer_1",
+            "properties": {
+                "body": "I'm sorry, I didn't understand. Please enter a number from 1 - 10.",
+                "from": "{{flow.channel.address}}",
+                "timeout": 3600,
+                "offset": {
+                    "y": 360,
+                    "x": -2290
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "incomingMessage",
+                    "next": "check_unknown_answer_2"
+                },
+                {
+                    "event": "timeout",
+                    "next": "error_message_back"
+                },
+                {
+                    "event": "deliveryFailure",
+                    "next": "error_message_back"
+                }
+            ],
+            "type": "send-and-wait-for-reply",
+            "name": "unknown_answer_2",
+            "properties": {
+                "body": "I'm sorry, I didn't understand. Please enter a number from 1 - 10.",
+                "from": "{{flow.channel.address}}",
+                "timeout": 3600,
+                "offset": {
+                    "y": 1170,
+                    "x": -2250
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "noMatch",
+                    "next": "unknown_answer_1"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "regex",
+                            "friendly_name": "1-10",
+                            "arguments": [
+                                "{{widgets.unknown_answer_1.inbound.Body}}"
+                            ],
+                            "value": "^(?:[1-9]|0[1-9]|10)$"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "second_question"
+                }
+            ],
+            "type": "split-based-on",
+            "name": "check_unknown_answer_1",
+            "properties": {
+                "input": "{{widgets.unknown_answer_1.inbound.Body}}",
+                "offset": {
+                    "y": 510,
+                    "x": -1580
+                }
+            }
+        },
+        {
+            "transitions": [
+                {
+                    "event": "noMatch",
+                    "next": "unknown_answer_2"
+                },
+                {
+                    "conditions": [
+                        {
+                            "type": "regex",
+                            "friendly_name": "1-10",
+                            "arguments": [
+                                "{{widgets.unknown_answer_2.inbound.Body}}"
+                            ],
+                            "value": "^(?:[1-9]|0[1-9]|10)$"
+                        }
+                    ],
+                    "event": "match",
+                    "next": "third_question"
+                }
+            ],
+            "type": "split-based-on",
+            "name": "check_unknown_answer_2",
+            "properties": {
+                "input": "{{widgets.unknown_answer_2.inbound.Body}}",
+                "offset": {
+                    "y": 1510,
+                    "x": -1610
+                }
+            }
+        }
+    ],
+    "initial_state": "Trigger",
+    "flags": {
+        "allow_concurrent_calls": true
+    },
+    "description": "Simple Survey"
+}

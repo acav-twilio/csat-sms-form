@@ -26,11 +26,11 @@ var authTokenFlow = Cypress.env('authTokenFlow') ;
 
 describe('Send request to start SMS CSAT form', () => {
       
-      it('Test format is correct', () => {
+      it('Text format is correct and customer receives first question', () => {
 
           //reset the state to start
           cy.stopTestFlow(); // we start the flow from 0
-          cy.wait(1000);
+          cy.wait(5000);
           cy.resetTestMessage();
           ////////
 
@@ -46,6 +46,7 @@ describe('Send request to start SMS CSAT form', () => {
             }
         });
      
+      cy.wait(5000);
       cy.checkMessage().should('eq', 'Thank you so much for your visit. On a scale of 1-10, how would you rate the service AAA  provided today?');
       })
   })
@@ -63,10 +64,11 @@ Then:
 */
 describe('Reaction to first question', () => {
       
-      it('Customer answers as expected ', () => {
+      it('Customer answers as expected and receives second question', () => {
       cy.resetTestMessage();
 
       cy.sendSms(`${flowNumber}`, "2"); //change number by variable
+      cy.wait(5000);
 
      
       cy.checkMessage().should('eq', 'On a scale of 1-10, how likely are you to recommend our company to a friend?');
@@ -86,11 +88,11 @@ Then:
 
 describe('Reaction to second question', () => {
       
-      it('Customer answers as expected ', () => {
+      it('Customer answers as expected and receives third question ', () => {
       cy.resetTestMessage();
 
       cy.sendSms(`${flowNumber}`, "2"); //change number by variable
-      cy.wait(1000);
+      cy.wait(5000);
 
      
       cy.checkMessage().should('eq', 'Please send us any additional feedback you would like to share with us.');
@@ -112,7 +114,7 @@ Then:
       - The system should answer back: "...."
 */
 
-describe('Reaction to last question', () => {
+describe('The system received the last question', () => {
       
       it('The system replies thank you', () => {
 
@@ -124,12 +126,12 @@ describe('Reaction to last question', () => {
       cy.checkMessage().should('eq', 'Thank you so much for your feedback!');
       })
 
-      it('At the end of the survey, all the answers are stored in a DB', () => {
+     it('At the end of the survey, all the answers are stored in a DB', () => {
           
             //TBD NOT POSSIBLE TO TEST IF NOT INTEGRATED
       
             //check the last step is an HTTP request with tjhe right format: at the momentt we 
-            cy.lastStepIs();
+            cy.lastStepIs('send_results_to_server');
             cy.wait(10000);
            // .should('eq', 'Thank you so much for your feedback!');
       })

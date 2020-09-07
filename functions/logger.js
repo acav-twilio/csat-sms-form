@@ -51,7 +51,7 @@ exports.handler = function(context, event, callback) {
   
     // create log line
     
-    var log_entry = context.customer_phone + job_id + first_question + unknown_answer_1 + second_question + unknown_answer_2 + third_question + send_results_to_server + direct_sms; 
+    var log_entry = customer_phone + job_id + first_question + unknown_answer_1 + second_question + unknown_answer_2 + third_question + send_results_to_server + direct_sms; 
     console.log(log_entry)
     // create time
     var moment = require('moment');
