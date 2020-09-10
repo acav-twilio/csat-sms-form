@@ -50,7 +50,7 @@ describe('Send request to start SMS CSAT form', () => {
 
 /*  
 
-happy path
+unhappy path
 Given:
       - A customer has engaged to answer the first question
      

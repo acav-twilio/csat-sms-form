@@ -16,22 +16,26 @@ Then:
 
 var flowNumber = Cypress.env('flowNumber');
 
-var accountSID = Cypress.env('accountSID') ;
-var authToken = Cypress.env('authToken') ;
+var accountSID = Cypress.env('accountSID') ; //test account
+var authToken = Cypress.env('authToken') ; //test account
 var testAccountNumber = Cypress.env('testAccountNumber') ;  //number of the tester -  we can restrict our flow to only that number
 var flowSid = Cypress.env('flowSid') ; 
 var accountSIDFlow = Cypress.env('accountSIDFlow') ;
 var authTokenFlow = Cypress.env('authTokenFlow') ;
+var csatDb = Cypress.env('csatDB');
+
 
 
 describe('Send request to start SMS CSAT form', () => {
       
       it('Text format is correct and customer receives first question', () => {
+           
 
           //reset the state to start
           cy.stopTestFlow(); // we start the flow from 0
           cy.wait(5000);
           cy.resetTestMessage();
+          cy.DeleteCsatInDb(`${csatDb}`,"NAME", "SURNAME",testAccountNumber,"AAA");
           ////////
 
       cy.request({
@@ -118,7 +122,7 @@ describe('The system received the last question', () => {
       
       it('The system replies thank you', () => {
 
-      cy.sendSms("+17079294026", "Anything"); //change number by variable
+      cy.sendSms(`${flowNumber}`, "Anything"); //change number by variable
       cy.wait(10000);
 
       //check the last step
@@ -132,7 +136,8 @@ describe('The system received the last question', () => {
       
             //check the last step is an HTTP request with tjhe right format: at the momentt we 
             cy.lastStepIs('send_results_to_server');
-            cy.wait(10000);
+            cy.CheckExistanceOfEntryInDB (`${csatDb}`,"NAME", "SURNAME",testAccountNumber,"AAA" )
+
            // .should('eq', 'Thank you so much for your feedback!');
       })
   })
