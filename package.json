@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "concurrently --kill-others \"$(npm bin)/cypress open\" \"node test_service/server.js\""
+    "test-dev": "concurrently --kill-others \"$(npm bin)/cypress open\" \"node test_service/server.js\"",
+    "test-staging": "concurrently --kill-others \"$(npm bin)/cypress run\" \"node test_service/server.js\""
   },
   "repository": {
     "type": "git",

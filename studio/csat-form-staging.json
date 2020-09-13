@@ -43,10 +43,10 @@
             "properties": {
                 "body": "Thank you so much for your visit. On a scale of 1-10, how would you rate the service {{flow.variables.job_id}}  provided today?",
                 "from": "{{flow.channel.address}}",
-                "timeout": 10,
+                "timeout": "3600",
                 "offset": {
-                    "y": 0,
-                    "x": 320
+                    "y": -90,
+                    "x": -390
                 }
             }
         },
@@ -76,8 +76,8 @@
             "properties": {
                 "input": "{{widgets.first_question.inbound.Body}}",
                 "offset": {
-                    "y": 340,
-                    "x": 70
+                    "y": 290,
+                    "x": -700
                 }
             }
         },
@@ -101,10 +101,10 @@
             "properties": {
                 "body": "On a scale of 1-10, how likely are you to recommend our company to a friend?",
                 "from": "{{flow.channel.address}}",
-                "timeout": 3600,
+                "timeout": "3600",
                 "offset": {
-                    "y": 620,
-                    "x": 80
+                    "y": 630,
+                    "x": -580
                 }
             }
         },
@@ -134,8 +134,8 @@
             "properties": {
                 "input": "{{widgets.second_question.inbound.Body}}",
                 "offset": {
-                    "y": 870,
-                    "x": 80
+                    "y": 920,
+                    "x": -790
                 }
             }
         },
@@ -159,10 +159,10 @@
             "properties": {
                 "body": "Please send us any additional feedback you would like to share with us.",
                 "from": "{{flow.channel.address}}",
-                "timeout": 3600,
+                "timeout": "3600",
                 "offset": {
-                    "y": 1200,
-                    "x": -400
+                    "y": 1440,
+                    "x": -810
                 }
             }
         },
@@ -184,8 +184,8 @@
                 "to": "{{contact.channel.address}}",
                 "from": "{{flow.channel.address}}",
                 "offset": {
-                    "y": 1610,
-                    "x": 100
+                    "y": 1250,
+                    "x": -50
                 }
             }
         },
@@ -207,8 +207,8 @@
                 "url": "https://5bfd6c95-ab7b-43d7-8361-7cd557e8056f.mock.pstmn.io/post",
                 "timeout": 3600,
                 "offset": {
-                    "y": 2230,
-                    "x": 240
+                    "y": 1950,
+                    "x": -40
                 },
                 "method": "POST"
             }
@@ -266,8 +266,8 @@
                 "url": "https://logger-6987-dev.twil.io/logger",
                 "environment_sid": "ZE1f055bffaeec796e9c97529ea01b1c8b",
                 "offset": {
-                    "y": 1580,
-                    "x": 1490
+                    "y": 1380,
+                    "x": 910
                 },
                 "function_sid": "ZH145d2d24bc28e92f996598c80121f945",
                 "service_sid": "ZSfd41aa9bb563da014c2ec40efd812982"
@@ -312,8 +312,8 @@
             "properties": {
                 "input": "{{trigger.message.Body}}",
                 "offset": {
-                    "y": -580,
-                    "x": -1940
+                    "y": -790,
+                    "x": -1720
                 }
             }
         },
@@ -334,8 +334,8 @@
                     }
                 ],
                 "offset": {
-                    "y": -170,
-                    "x": -950
+                    "y": -330,
+                    "x": -890
                 }
             }
         },
@@ -357,8 +357,8 @@
                 "to": "{{contact.channel.address}}",
                 "from": "{{flow.channel.address}}",
                 "offset": {
-                    "y": 1200,
-                    "x": 1490
+                    "y": 1010,
+                    "x": 1230
                 }
             }
         },
@@ -382,10 +382,10 @@
             "properties": {
                 "body": "I'm sorry, I didn't understand. Please enter a number from 1 - 10.",
                 "from": "{{flow.channel.address}}",
-                "timeout": 3600,
+                "timeout": "3600",
                 "offset": {
-                    "y": 360,
-                    "x": -2290
+                    "y": 500,
+                    "x": -2390
                 }
             }
         },
@@ -409,7 +409,7 @@
             "properties": {
                 "body": "I'm sorry, I didn't understand. Please enter a number from 1 - 10.",
                 "from": "{{flow.channel.address}}",
-                "timeout": 3600,
+                "timeout": "3600",
                 "offset": {
                     "y": 1170,
                     "x": -2250
@@ -442,8 +442,8 @@
             "properties": {
                 "input": "{{widgets.unknown_answer_1.inbound.Body}}",
                 "offset": {
-                    "y": 510,
-                    "x": -1580
+                    "y": 460,
+                    "x": -1560
                 }
             }
         },

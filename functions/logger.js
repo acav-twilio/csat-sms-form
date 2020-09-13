@@ -14,7 +14,6 @@ exports.handler = function(context, event, callback) {
     
     const accountSid = context.ACCOUNT_SID;
     const authToken = context.AUTH_TOKEN;
-    const serviceDomain = context.DOMAIN_NAME;
     console.log(accountSid);
     console.log(authToken);
       var phone_number = "";
@@ -60,8 +59,8 @@ exports.handler = function(context, event, callback) {
     const axios = require('axios');
   
     axios.post(context.LOGGER_SERVICE_URL, {
-      log: log_entry,
-      time: moment().toISOString(),
+      Entry: log_entry,
+      Date_time: moment().toISOString()
     })
     .then(function (response) {
       console.log(response);

@@ -1,4 +1,25 @@
-require('custom-env').env('staging')
+
+const args = process.argv.slice(2);  //we pass the URL of the  and the function as arguments // $strapi_db $serviceSid $environmentSid $functionSid $logger_url 
+ 
+
+var dbApiUrl = args[0];
+var functionSid =  args[3];
+var serviceSid = args[1];
+var environmentSid = args[2];
+var logger_url = args[4];
+var environment = args[5];
+
+if(environment=='staging'){
+    require('custom-env').env('staging')
+}
+else if(environment=='production'){
+    require('custom-env').env('production')
+}
+else
+{
+    console.log("not known environment - aborting");
+    process.exit(0);
+}
 
 const accountSid = process.env.accountSIDFlow;
 const authToken = process.env.authTokenFlow;
@@ -11,17 +32,11 @@ var twilio = require('twilio');
 var clientSource = new twilio(accountSid, authToken);   //Dev
 var clientTarget = new twilio(accountSidTarget, authTokenTarget); //Staging
 
-const args = process.argv.slice(2);  //we pass the URL of the  and the function as arguments // $strapi_db $serviceSid $environmentSid $functionSid $logger_url 
- 
 
-var dbApiUrl = args[0];
-var functionSid =  args[3];
-var serviceSid = args[1];
-var environmentSid = args[2];
-var logger_url = args[4]
 
 
   const fs = require('fs');
+const { exit } = require('process');
 
    clientSource.studio.flows(flowSidSource)
              .fetch().then(flow => {
@@ -31,7 +46,7 @@ var logger_url = args[4]
                 if (err) {
                     throw err;
                 }
-                console.log("Dev Flow JSON data is saved.");
+                //console.log("Dev Flow JSON data is saved.");
 
                 fs.readFile("./studio/csat-form-staging.json", function(err, data) { 
       
@@ -68,8 +83,9 @@ var logger_url = args[4]
                         definition: definition,
                     }).then(flow2 => {
                       
-                        console.log(`Flow deployed in Staging Environment account SID ${accountSidTarget}`);
-                        console.log(`Studio Flow SID ${flow2.sid}`);
+                        //console.log(`Flow deployed in Staging Environment account SID ${accountSidTarget}`);
+                        //console.log(`Studio Flow SID ${flow2.sid}`);
+                        console.log(`${flow2.webhookUrl} ${flow2.sid}`);
                     }); 
                 }); 
 
