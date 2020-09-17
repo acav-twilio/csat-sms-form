@@ -12,11 +12,6 @@ exports.handler = function(context, event, callback) {
     console.log(proper + "=" + event[proper]);
     }
     
-    const accountSid = context.ACCOUNT_SID;
-    const authToken = context.AUTH_TOKEN;
-    console.log(accountSid);
-    console.log(authToken);
-      var phone_number = "";
       var first_question = "";
       var unknown_answer_1 = "";
       var second_question = "";
