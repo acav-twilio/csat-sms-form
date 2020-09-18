@@ -14,10 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-
-require('dotenv').config();
-
 import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+ 

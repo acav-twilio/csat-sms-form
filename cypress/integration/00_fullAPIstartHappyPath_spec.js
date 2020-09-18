@@ -23,7 +23,6 @@ var flowSid = Cypress.env('flowSid') ;
 var accountSIDFlow = Cypress.env('accountSIDFlow') ;
 var authTokenFlow = Cypress.env('authTokenFlow') ;
 
-
 describe('Send request to start SMS CSAT form', () => {
       
       it('Text format is correct and customer receives first question', () => {
@@ -47,7 +46,7 @@ describe('Send request to start SMS CSAT form', () => {
         });
      
       cy.wait(5000);
-      cy.checkMessage().should('eq', 'Thank you so much for your visit. On a scale of 1-10, how would you rate the service AAA  provided today?');
+      cy.checkMessage().should('eq', 'Thank you so much for your visit. On a scale of 1-10, how would you rate the service provided for job AAA today?');
       })
   })
 

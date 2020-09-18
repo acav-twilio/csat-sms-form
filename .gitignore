@@ -2,6 +2,7 @@ node_modules
 .env
 .env.dev
 .env.staging
+.env.production
 cypress.env.json
 cypress.env.dev.json
 cypress.env.staging.json

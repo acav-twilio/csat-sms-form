@@ -1,3 +1,4 @@
+var flowNumber = Cypress.env('flowNumber');
 
 /*  
 
@@ -23,7 +24,7 @@ describe('Trigger the CSAT SMS form via SMS', () => {
            cy.resetTestMessage();
            ////////
 
-      cy.sendSms("+17079294026", "This message is not compliant");
+      cy.sendSms(`${flowNumber}`, "This message is not compliant");
       cy.wait(10000); //wait at least 10 seconds for the response -  the real tests should be 1 minute if that is the required max not to fail
       cy.checkMessage().should('eq', '');
   //    expect(true).to.equal(true)

@@ -1,3 +1,4 @@
+var flowNumber = Cypress.env('flowNumber');
 
 /*  
 
@@ -21,7 +22,7 @@ describe('Trigger the CSAT SMS form via SMS', () => {
       cy.resetTestMessage();
       ////////
 
-      cy.sendSms("+17079294026", "Feedback job AAA"); //change number by variable
+      cy.sendSms(`${flowNumber}`, "Feedback job AAA"); //change number by variable
       cy.wait(5000); //wait at least 10 seconds for the response -  the real tests should be 1 minute if that is the required max not to fail
       cy.checkMessage().should('eq', 'Thank you so much for your visit. On a scale of 1-10, how would you rate the service AAA  provided today?');
       //expect(msg).to.equal(msg);
