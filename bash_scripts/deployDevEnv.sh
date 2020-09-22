@@ -7,7 +7,7 @@ echo
 echo
 echo "Deploying the logger Twilio Function in Dev Environment"
 twilio profiles:list  ## comment out if you want to verify what twilo account you are deploying to
-twilio profiles:use signal2020
+twilio profiles:use csat-dev
 rm .twilio-functions ## comment out if deployed in a new account or a different service is needed (50 services per account max)
 # change twilio CLI to account you want to deploy in
 twilio serverless:deploy  --force --service-name=logger --environment=dev --env='.env.dev'    #force will write over any other service with the same name 
