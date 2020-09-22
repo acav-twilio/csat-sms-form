@@ -18,9 +18,9 @@ echo
 echo
 echo Deploying the logger Twilio Function
 echo
-# rm .twilio-functions ## comment out if deployed in a new account or a different service is needed (50 services per account max)
-twilio profiles:use csat-integration
-twilio serverless:deploy  --service-name=logger --environment=staging --env='.env.staging' --force > logger-staging.out 
+rm .twilio-functions ## comment out if deployed in a new account or a different service is needed (50 services per account max)
+twilio profiles:use csat-staging
+twilio serverless:deploy --force --service-name=logger --environment=staging --env='.env.staging' --force > logger-staging.out 
 
 tput setaf 2
 echo
@@ -71,7 +71,7 @@ echo Deploying Twilio Studio Flow
 
 echo Fetch Studio Flow, Update and Upload to Staging Environment
 
-twilio profiles:use signal2020
+twilio profiles:use csat-dev
 #//we pass the URL of the  and the function as arguments 0 and 1; env_sid; function_sid; service_sid
 
 echo "node ./studio/fetchStudioFlow.js $strapi_db $serviceSid $environmentSid $functionSid $logger_url   "
@@ -87,7 +87,7 @@ echo
 echo "Attach Flow to a phone number +12056198563"
 echo
 mobile="+12056198563"
-twilio profiles:use csat-integration
+twilio profiles:use csat-staging
 twilio phone-numbers:update $mobile --sms-url=$webhook
 
 tput setaf 2

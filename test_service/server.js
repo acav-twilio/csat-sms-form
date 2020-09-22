@@ -43,7 +43,7 @@ app.listen(port, () =>{
 
 });
 
-const token = process.env.TOKEN 
+const token = process.env.NGROK_TOKEN 
 
 var testDomain = process.env.TESTER_URL || "testerSignal2020"
 
