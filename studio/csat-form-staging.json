@@ -202,7 +202,7 @@
             "type": "make-http-request",
             "name": "send_results_to_server",
             "properties": {
-                "body": "{ \"name\": \"{{flow.data.name}}\", \"surname\": \"{{flow.data.surname}}\",\"phone_number\": \"{{contact.channel.address}}\",\"service_score\": \"{{widgets.first_question.inbound.Body}}\",\"recommendation_score\": \"{{widgets.second_question.inbound.Body}}\",\"feedback\": \"{{widgets.third_question.inbound.Body}}\",\"job_id\": \"{{widgets.set_job_id.Variables}}\"}",
+                "body": "{ \"name\": \"{{flow.data.name}}\", \"surname\": \"{{flow.data.surname}}\",\"phone_number\": \"{{contact.channel.address}}\",\"service_score\": \"{{widgets.first_question.inbound.Body}}\",\"recommendation_score\": \"{{widgets.second_question.inbound.Body}}\",\"feedback\": \"{{widgets.third_question.inbound.Body}}\",\"job_id\": \"{{widgets.set_job_id.job_id}}\"}",
                 "content_type": "application/json;charset=utf-8",
                 "url": "https://5bfd6c95-ab7b-43d7-8361-7cd557e8056f.mock.pstmn.io/post",
                 "timeout": 3600,
@@ -263,14 +263,14 @@
                         "value": "{{flow.variables.job_id}}"
                     }
                 ],
-                "url": "https://logger-6987-dev.twil.io/logger",
-                "environment_sid": "ZE1f055bffaeec796e9c97529ea01b1c8b",
+                "url": "https://logger-7624-dev.twil.io/logger",
+                "environment_sid": "ZE225ed74f14627e96e628e90e8363309c",
                 "offset": {
                     "y": 1380,
                     "x": 910
                 },
-                "function_sid": "ZH145d2d24bc28e92f996598c80121f945",
-                "service_sid": "ZSfd41aa9bb563da014c2ec40efd812982"
+                "function_sid": "ZHc5c9df03f15bc6c535835e7cd669e6d5",
+                "service_sid": "ZS99f91babeff97746fb9a14b8cec9daa9"
             }
         },
         {

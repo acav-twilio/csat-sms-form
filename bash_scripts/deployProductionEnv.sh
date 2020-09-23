@@ -1,6 +1,6 @@
 #!/bin/bash
 
-tput setaf 2
+
 echo "This code uses Twilio CLI, CURL, GCP CLI"
 echo "For Twilio CLI do \"brew install twilio\" or upgrade to latest version \"brew upgrade twilio\""
 echo using twilio plugins:install @twilio-labs/plugin-serverless
@@ -18,6 +18,10 @@ echo
 echo
 echo Deploying the logger Twilio Function
 echo
+npm uninstall cypress
+npm uninstall ngrok
+npm uninstall concurrently
+npm uninstall custom-env
 rm .twilio-functions ## comment out if deployed in a new account or a different service is needed (50 services per account max)
 twilio profiles:use csat-production
 twilio serverless:deploy  --force --service-name=logger --environment=production --env='.env.production'  > logger-production.out 
@@ -73,7 +77,7 @@ echo Fetch Studio Flow, Update and Upload to production Environment
 
 twilio profiles:use csat-dev
 #//we pass the URL of the  and the function as arguments 0 and 1; env_sid; function_sid; service_sid
-
+npm install custom-env
 echo "node ./studio/fetchStudioFlow.js $strapi_db $serviceSid $environmentSid $functionSid $logger_url   "
 echo
 output=$(node ./studio/fetchStudioFlow.js $strapi_db $serviceSid $environmentSid $functionSid $logger_url production)
@@ -86,7 +90,7 @@ tput setaf 2
 echo
 echo "Attach Flow to a phone number +33 6 44 64 33 21"
 echo
+
 phone="+33644643321"
 twilio profiles:use csat-production
 twilio phone-numbers:update $phone --sms-url=$webhook
-

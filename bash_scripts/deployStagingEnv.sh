@@ -18,6 +18,10 @@ echo
 echo
 echo Deploying the logger Twilio Function
 echo
+npm uninstall cypress
+npm uninstall ngrok
+npm uninstall concurrently
+npm uninstall custom-env
 rm .twilio-functions ## comment out if deployed in a new account or a different service is needed (50 services per account max)
 twilio profiles:use csat-staging
 twilio serverless:deploy --force --service-name=logger --environment=staging --env='.env.staging' --force > logger-staging.out 
@@ -70,7 +74,7 @@ echo
 echo Deploying Twilio Studio Flow
 
 echo Fetch Studio Flow, Update and Upload to Staging Environment
-
+npm install custom-env
 twilio profiles:use csat-dev
 #//we pass the URL of the  and the function as arguments 0 and 1; env_sid; function_sid; service_sid
 
@@ -94,6 +98,10 @@ tput setaf 2
 echo
 echo "cypress tests"
 echo
+
+npm install concurrently
+npm install ngrok
+npm install cypress
 node test_service/server.js &
 $(npm bin)/cypress open  --env flowNumber=$mobile,flowSid=$flowId,accountSIDFlow=$ACCOUNTSID_STAGING,authTokenFlow=$TOKEN_STAGING # --spec "cypress/integration/dbTwilio_integration_tests/00_fullAPIstartHappyPath_spec.js"  #change this to run with specific environment variables - staging
 
