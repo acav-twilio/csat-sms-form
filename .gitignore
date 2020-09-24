@@ -11,3 +11,4 @@ test.text
 logger.out
 logger-dev.out
 cypress/.DS_Store
+.DS_Store
