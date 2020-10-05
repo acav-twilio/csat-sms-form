@@ -556,9 +556,9 @@ $ bash bash_scripts/deployProductionEnv.sh
 # **Developing and testing your solutions behind a firewall**
 
 If you work in a corporate environment, it is likely that you will not be able
-to run NGROK to simulate a telephone receiving SMS. Twilio still requires for you
-to direct the events upong SMS reception to a publicly available Webhook. In these circumstances we recommend that you work with the NetOps or ITOps team of your company to explore one of these two options:
+to run NGROK to simulate a telephone receiving SMS. Twilio still requires  you
+to direct the events on SMS reception to a publicly available webhook. In these circumstances, we recommend that you work with the NetOps or ITOps team of your company to explore one of these two options:
 
-1. If your solution requires access to both internal and external resources, set your development machine in the DMZ and work with the IT team to externalise an address and port in asecure manner. We are assuming that your IT already lets you use the Twilio API and all externally, so you just require a secure and controlled route onto your dev machine (an url to use with Twilio). You can log into it from your laptop.
+1. If your solution requires access to both internal and external resources, set your development machine in the DMZ and work with the IT team to externalise an address and port in a secure way. We are assuming that your IT team already allows to you use the Twilio API and all external resources your require, so you just need a secure and controlled route towards your dev machine (an url to use with Twilio). A virtual machine inside the DMZ should be easily accessible via your laptop directly or using a VPN. Ask your IT team.
 
-2. If you do not need any access to any local resouces and you are developing a full cloud solution, consider setting your development environment in the cloud. Do not forget to use best practices in terms of protection by restricting all access to that machine beyond the controlled routes. In this case it is likely that you will be able to use Ngrok. You will be in full control.
+2. If you do not need any access to any local resouces and you are developing a full cloud solution, consider setting your dev environment in the cloud. Do not forget to use best practices in terms of protection by restricting all access to that machine beyond the controlled routes. In this case it is likely that you will be able to use Ngrok. You will be in full control. Ask your IT team what public cloud provider tehy recommend and what the best way to connect to the dev machine your want to set up.
