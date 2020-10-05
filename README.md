@@ -551,7 +551,7 @@ With your environment ready to go, navigate to the root of your project and run 
 
 ```
 $ bash bash_scripts/deployProductionEnv.sh
-
+```
 
 # **Developing and testing your solutions behind a firewall**
 
